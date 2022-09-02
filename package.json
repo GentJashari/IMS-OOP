@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "test": "cucumber-js -f json:cucumber-report.json ./node_modules/cucumber/bin/cucumber-js"
+  },
+  "dependencies": {
+    "@cucumber/cucumber": "^8.5.2",
+    "@types/puppeteer": "^5.4.6",
+    "chai": "^4.3.6",
+    "puppeteer": "^16.2.0",
+    "puppeteer-shadow-selector": "^1.0.1"
+  }
+}
