@@ -37,11 +37,11 @@ class Shipments {
     fillTheForm = async () => {
         await browserInstance.getCurrentPage().waitForTimeout(5000)
         let shadowEditor = await getEl(browserInstance.getCurrentPage(), 'ipd-ims-shipment-editor-component::shadow-dom(div)');
-        let selectCustomer = await shadowEditor?.waitForSelector("#customerId_0");
-        // console.log(selectCustomer);
+        let selectCustomer = await shadowEditor?.waitForSelector("#f_customerId_0");
+        console.log(selectCustomer);
         // debugger;
         // let selectCustomer = await getEl(browserInstance.getCurrentPage(), `ipd-ims-shipment-editor-component::shadow-dom([id="f_customerId_0"])`);
-        let customerName = await shadowEditor?.waitForSelector('.form-select #f_customerId_0');
+        let customerName = await shadowEditor?.waitForSelector(`[select="customerId"]`);
         // await browserInstance.getCurrentPage().waitForTimeout(2000);
         await selectCustomer.select(`select#${customerName}`, '171');
         // await browserInstance.getCurrentPage().waitForTimeout(2000);
