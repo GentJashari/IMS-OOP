@@ -26,16 +26,19 @@ class CatalogComponents {
         }
 
         {
-            let columnDetails = await browserInstance.getCurrentPage().evaluate(async () => {
-                await browserInstance.getCurrentPage().waitForTimeout(4000)
-                let getInnerText = (shadow: string, selector: string) => {
-                   document.querySelector(shadow).shadowRoot.querySelector(selector) ? document.querySelector(shadow).shadowRoot.querySelector(selector).textContent : false;
+            let shadowRootEl = await getEl(browserInstance.getCurrentPage(), `ipd-ims-component-browser-component::shadow-dom(div)`);
+
+            let columnDetails = await browserInstance.getCurrentPage().evaluate(() => {
+
+                let getInnerText = async (selector: string) => {
+                    await browserInstance.getCurrentPage().waitForTimeout(4000)
+                    await shadowRootEl?.waitForSelector(`${selector}`);
                 };
                 return {
-                    columnName: await getInnerText('ipd-ims-component-browser-component', 'div > div > div > div > div > div > div > table > tbody > tr:nth-child(1) > td:nth-child(1) > div > p')
+                    columnName: getInnerText('div > div > div > div > div > div > table > tbody > tr:nth-child(1) > td:nth-child(1) > div > p')
                 }
             })
-            console.log(columnDetails)
+            console.log(columnDetails.columnName)
         }
 
 

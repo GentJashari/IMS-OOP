@@ -21,16 +21,17 @@ class CatalogComponents {
             expect(browser_1.browserInstance.getCurrentPage().url()).to.be.equal('https://amb.polymaths.dev/catalog/components');
         }
         {
-            let columnDetails = await browser_1.browserInstance.getCurrentPage().evaluate(async () => {
-                await browser_1.browserInstance.getCurrentPage().waitForTimeout(4000);
-                let getInnerText = (shadow, selector) => {
-                    document.querySelector(shadow).shadowRoot.querySelector(selector) ? document.querySelector(shadow).shadowRoot.querySelector(selector).textContent : false;
+            let shadowRootEl = await getEl(browser_1.browserInstance.getCurrentPage(), `ipd-ims-component-browser-component::shadow-dom(div)`);
+            let columnDetails = await browser_1.browserInstance.getCurrentPage().evaluate(() => {
+                let getInnerText = async (selector) => {
+                    await browser_1.browserInstance.getCurrentPage().waitForTimeout(4000);
+                    await shadowRootEl?.waitForSelector(`${selector}`);
                 };
                 return {
-                    columnName: await getInnerText('ipd-ims-component-browser-component', 'div > div > div > div > div > div > div > table > tbody > tr:nth-child(1) > td:nth-child(1) > div > p')
+                    columnName: getInnerText('div > div > div > div > div > div > table > tbody > tr:nth-child(1) > td:nth-child(1) > div > p')
                 };
             });
-            console.log(columnDetails);
+            console.log(columnDetails.columnName);
         }
     };
 }
