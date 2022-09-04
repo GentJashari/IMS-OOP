@@ -52,17 +52,17 @@ class Shipments {
     };
     fillTheForm = async () => {
         await browser_1.browserInstance.getCurrentPage().waitForTimeout(5000);
-        let shadowEditor = await getEl(browser_1.browserInstance.getCurrentPage(), 'ipd-ims-shipment-editor-component::shadow-dom(div)');
-        let selectCustomer = await shadowEditor?.waitForSelector("#f_customerId_0");
-        console.log(selectCustomer);
-        let customerName = await shadowEditor?.waitForSelector(`[select="customerId"]`);
-        await selectCustomer.select(`select#${customerName}`, '171');
-        let selectDestination = await shadowEditor?.waitForSelector("#f_destination_1");
-        let destinationName = await shadowEditor?.waitForSelector(".form-select #f_destination_1");
+        let selectCustomer = await getEl(browser_1.browserInstance.getCurrentPage(), `ipd-ims-shipment-editor-component::shadow-dom([id="f_customerId_0"])`);
+        let customerName = await getEl(browser_1.browserInstance.getCurrentPage(), `ipd-ims-shipment-editor-component::shadow-dom([select="customerId"])`);
+        await selectCustomer.select(`select#${customerName}`, '185');
+        await browser_1.browserInstance.getCurrentPage().waitForTimeout(3000);
+        let selectDestination = await getEl(browser_1.browserInstance.getCurrentPage(), `ipd-ims-shipment-editor-component::shadow-dom([id="f_destination_1"])`);
+        let destinationName = await getEl(browser_1.browserInstance.getCurrentPage(), `ipd-ims-shipment-editor-component::shadow-dom([select="destination"])`);
         await selectDestination.select(`select#${destinationName}`, 'sterilization');
-        let shipTo = await shadowEditor?.waitForSelector('#shipToId');
-        let shipToName = await shadowEditor?.waitForSelector('.form-select #shipToId');
-        await shipTo.select(`select#${shipToName}`, '52');
+        await browser_1.browserInstance.getCurrentPage().waitForTimeout(3000);
+        let shipTo = await getEl(browser_1.browserInstance.getCurrentPage(), `ipd-ims-shipment-editor-component::shadow-dom([id="f_shipToId_0"])`);
+        let shipToName = await getEl(browser_1.browserInstance.getCurrentPage(), `ipd-ims-shipment-editor-component::shadow-dom([id="f_shipToId_0"])`);
+        await shipTo.select(`select#${shipToName}`, '56');
         let shadowEditorComponent = await getEl(browser_1.browserInstance.getCurrentPage(), 'ipd-ims-shipment-editor-component::shadow-dom(div)');
         let option = await shadowEditorComponent?.waitForSelector("#f_shipToId_0 > option:nth-child(1)");
         if (option) {
@@ -80,24 +80,19 @@ class Shipments {
             await browser_1.browserInstance.getCurrentPage().waitForTimeout(2000);
             let notes = await getEl(browser_1.browserInstance.getCurrentPage(), `ipd-ims-shipment-editor-component::shadow-dom([id="f_notes_0"])`);
             await notes.type(``);
-            await browser_1.browserInstance.getCurrentPage().waitForTimeout(2000);
+            await browser_1.browserInstance.getCurrentPage().waitForTimeout(3000);
             let saveBtn = await browser_1.browserInstance.getCurrentPage().$('#root > section > div > div > div > main > div.btn-toolbar.mt-4.mb-4 > div:nth-child(1) > button:nth-child(2)');
             saveBtn.click();
             await browser_1.browserInstance.getCurrentPage().waitForTimeout(2000);
             await browser_1.browserInstance.goto(`${element.shipmentsPageUrl}`);
             await browser_1.browserInstance.getCurrentPage().waitForNavigation();
             let shadoRootBrowserComponent = await getEl(browser_1.browserInstance.getCurrentPage(), 'ipd-ims-shipment-browser-component::shadow-dom(div)');
-            let findNextBtn = await shadoRootBrowserComponent?.waitForSelector('.pagination li:last-child');
-            console.log(findNextBtn);
-            console.log(browser_1.browserInstance.getCurrentPage().url());
-            const findNextBtnProperty = await (await findNextBtn.getProperty('disabled')).jsonValue();
-            if (!findNextBtnProperty) {
-                findNextBtn.click();
-            }
-            await browser_1.browserInstance.getCurrentPage().goto(`https://amb.polymaths.dev/delivery/shipments/179/shipment`);
             await browser_1.browserInstance.getCurrentPage().waitForTimeout(3000);
-            let deleteBtn = await shadoRootBrowserComponent?.waitForSelector(".btn-group button:nth-child(3)");
+            await browser_1.browserInstance.getCurrentPage().goto(`https://amb.polymaths.dev/delivery/shipments/184/shipment`);
+            await browser_1.browserInstance.getCurrentPage().waitForTimeout(8000);
+            let deleteBtn = await browser_1.browserInstance.getCurrentPage().waitForSelector(".btn-group > button:nth-child(3)");
             deleteBtn.click();
+            await browser_1.browserInstance.getCurrentPage().waitForTimeout(3000);
         }
         else {
             let shadowEditorComponentForButton = await getEl(browser_1.browserInstance.getCurrentPage(), 'ipd-ims-shipment-editor-component::shadow-dom(div.position-relative.h-100 > div > div > form > div:nth-child(2) > div.col-1 > div)');

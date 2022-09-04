@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const shpiments_1 = require("./shpiments");
+const catalogComponents_1 = require("./catalogComponents");
 let init = async () => {
-    shpiments_1.shpiments.shipmentsPage();
+    catalogComponents_1.componentCatalogClass.compoentsCatalog();
 };
 init();

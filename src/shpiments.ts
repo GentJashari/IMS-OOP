@@ -35,28 +35,29 @@ class Shipments {
     }
 
     fillTheForm = async () => {
-        await browserInstance.getCurrentPage().waitForTimeout(5000)
-        let shadowEditor = await getEl(browserInstance.getCurrentPage(), 'ipd-ims-shipment-editor-component::shadow-dom(div)');
-        let selectCustomer = await shadowEditor?.waitForSelector("#f_customerId_0");
-        console.log(selectCustomer);
-        // debugger;
-        // let selectCustomer = await getEl(browserInstance.getCurrentPage(), `ipd-ims-shipment-editor-component::shadow-dom([id="f_customerId_0"])`);
-        let customerName = await shadowEditor?.waitForSelector(`[select="customerId"]`);
+        await browserInstance.getCurrentPage().waitForTimeout(5000);
+        let selectCustomer = await getEl(browserInstance.getCurrentPage(), `ipd-ims-shipment-editor-component::shadow-dom([id="f_customerId_0"])`);
+        let customerName = await getEl(browserInstance.getCurrentPage(), `ipd-ims-shipment-editor-component::shadow-dom([select="customerId"])`);
         // await browserInstance.getCurrentPage().waitForTimeout(2000);
-        await selectCustomer.select(`select#${customerName}`, '171');
+        await selectCustomer.select(`select#${customerName}`, '185');
         // await browserInstance.getCurrentPage().waitForTimeout(2000);
+        await browserInstance.getCurrentPage().waitForTimeout(3000);
 
-        let selectDestination = await shadowEditor?.waitForSelector("#f_destination_1");
-        let destinationName = await shadowEditor?.waitForSelector(".form-select #f_destination_1");
+        let selectDestination = await getEl(browserInstance.getCurrentPage(), `ipd-ims-shipment-editor-component::shadow-dom([id="f_destination_1"])`);
+        let destinationName = await getEl(browserInstance.getCurrentPage(), `ipd-ims-shipment-editor-component::shadow-dom([select="destination"])`);
+
 
         await selectDestination.select(`select#${destinationName}`, 'sterilization');
 
-        // await browserInstance.getCurrentPage().waitForTimeout(2000);
+        await browserInstance.getCurrentPage().waitForTimeout(3000);
 
-        let shipTo = await shadowEditor?.waitForSelector('#shipToId');
-        let shipToName = await shadowEditor?.waitForSelector('.form-select #shipToId')
+        let shipTo = await getEl(browserInstance.getCurrentPage(), `ipd-ims-shipment-editor-component::shadow-dom([id="f_shipToId_0"])`);
+        let shipToName = await getEl(browserInstance.getCurrentPage(), `ipd-ims-shipment-editor-component::shadow-dom([id="f_shipToId_0"])`);
+        // let shipToName = await getEl(browserInstance.getCurrentPage(), `ipd-ims-shipment-editor-component::shadow-dom(select="shipToId")`);
+
         // await browserInstance.getCurrentPage().waitForTimeout(3000)
-        await shipTo.select(`select#${shipToName}`, '52');
+
+        await shipTo.select(`select#${shipToName}`, '56');
 
         let shadowEditorComponent = await getEl(browserInstance.getCurrentPage(), 'ipd-ims-shipment-editor-component::shadow-dom(div)');
 
@@ -89,7 +90,7 @@ class Shipments {
             await notes.type(``);
             // await notes.type(`${this.generateCharacters()}`);
 
-            await browserInstance.getCurrentPage().waitForTimeout(2000);
+            await browserInstance.getCurrentPage().waitForTimeout(3000);
 
             let saveBtn = await browserInstance.getCurrentPage().$('#root > section > div > div > div > main > div.btn-toolbar.mt-4.mb-4 > div:nth-child(1) > button:nth-child(2)');
             saveBtn.click();
@@ -100,27 +101,34 @@ class Shipments {
             await browserInstance.goto(`${element.shipmentsPageUrl}`);
             await browserInstance.getCurrentPage().waitForNavigation();
 
+
             let shadoRootBrowserComponent = await getEl(browserInstance.getCurrentPage(), 'ipd-ims-shipment-browser-component::shadow-dom(div)');
-            let findNextBtn = await shadoRootBrowserComponent?.waitForSelector('.pagination li:last-child');
-            console.log(findNextBtn);
+            // let findNextBtn = await shadoRootBrowserComponent?.waitForSelector('.pagination li:last-child');
+            // console.log(findNextBtn);
 
             // await browserInstance.getCurrentPage().waitForTimeout(1000);
 
-            console.log(browserInstance.getCurrentPage().url());
-            const findNextBtnProperty = await (await findNextBtn.getProperty('disabled')).jsonValue();
-            if (!findNextBtnProperty) {
-                findNextBtn.click();
-            }
+            // console.log(browserInstance.getCurrentPage().url());
+            // const findNextBtnProperty = await (await findNextBtn.getProperty('disabled')).jsonValue();
+            // if (!findNextBtnProperty) {
+            //     findNextBtn.click();
+            // }
 
-            // await browserInstance.getCurrentPage().waitForTimeout(2000);
-
-            // let selectTheCustomerToDelete = await browserInstance.getCurrentPage().evaluate(() => document.querySelector('ipd-ims-shipment-browser-component').shadowRoot.querySelector('div > div > div > div > div > div > div > table > tbody > tr:nth-child(1)'));
-            // await browserInstance.getCurrentPage().waitForTimeout(2000);
-            await browserInstance.getCurrentPage().goto(`https://amb.polymaths.dev/delivery/shipments/179/shipment`);
             await browserInstance.getCurrentPage().waitForTimeout(3000);
-            // let deleteBtn = await page.$('#root > section > div > div > div > main > div.btn-toolbar.mt-4.mb-4 > div:nth-child(1) > button:nth-child(3)');
-            let deleteBtn = await shadoRootBrowserComponent?.waitForSelector(".btn-group button:nth-child(3)");
+            await browserInstance.getCurrentPage().goto(`https://amb.polymaths.dev/delivery/shipments/184/shipment`);
+            await browserInstance.getCurrentPage().waitForTimeout(8000);
+
+            let deleteBtn = await browserInstance.getCurrentPage().waitForSelector(".btn-group > button:nth-child(3)");
             deleteBtn.click();
+            await browserInstance.getCurrentPage().waitForTimeout(3000);
+
+            // let okBtn = await getEl(browserInstance.getCurrentPage().evaluate(() => {
+            //     return document.querySelector('ipd-ims-shipment-editor-component').shadowRoot.querySelector('div > div > div:nth-child(2) > div > div > div.modal-footer > button.btn.btn-sm.btn-primary.text-uppercase');
+            // }));
+            // console.log(okBtn);
+            // okBtn.click();
+
+            // await browserInstance.getCurrentPage().waitForNavigation();
         }
 
         else {
