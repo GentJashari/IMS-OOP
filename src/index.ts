@@ -6,9 +6,9 @@ import { componentCatalogClass } from "./catalogComponents";
 
 
 let init = async () => {
-   // shpiments.shipmentsPage();
+   shpiments.shipmentsPage();
    // at the end -> browserInstance.getCurrentPage().close();
-   componentCatalogClass.compoentsCatalog();
+   // componentCatalogClass.compoentsCatalog();
 }
 
 init();
